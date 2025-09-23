@@ -5,22 +5,34 @@ body {
 h1 {
 }
 
-img{
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-}
-
 canvas {
     border: 5px solid blue;
     background-color: black;
     border-radius: 15px;
 }
 
-#start{
+#start {
     text-align: center;
     height: 100px;
     width: 200px;
     font-size: 20px;
     border-radius: 20px;
+}
+
+.direction {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: none;
+    background-size: cover;
+    background-position: center;
+    text-indent: -9999px;
+}
+
+#gauche {
+    background-image: url("../img/gauche.png");
+}
+
+#droite {
+    background-image: url("../img/droite.png");
 }
