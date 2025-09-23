@@ -4,6 +4,7 @@ const startButton = document.getElementById('start');
 const scoreLabel = document.getElementById('score');
 const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
+const scoresTable = document.getElementById('scores');
 
 const keys = {
     ArrowLeft: false,
@@ -126,6 +127,28 @@ function endGame() {
     game = false;
     startButton.textContent = "Rejouer";
     console.log('endGame');
+
+    scores = JSON.parse(localStorage.getItem("scores"));
+    if (scores === null) {
+        scores = [];
+    }
+    nom = prompt("Entrez votre nom");
+    scores.push([nom, scoreLabel.innerHTML]);
+
+    localStorage.setItem("scores", JSON.stringify(scores));
+    afficherScores();
+}
+
+function afficherScores() {
+    scores = JSON.parse(localStorage.getItem("scores"));
+
+    scores.sort((a, b) => b[1] - a[1]);
+
+    scoresTable.innerHTML = '<tr><td class="title">Nom</td><td class="title">Score</td></tr>';
+
+    scores.forEach(score => {
+        scoresTable.innerHTML += `<tr><td>${score[0]}</td><td>${score[1]}</td></tr>`
+    })
 }
 
 startButton.addEventListener('click', startGame);
@@ -184,4 +207,4 @@ document.addEventListener("contextmenu", (e) => e.preventDefault());
 
 drawBall()
 drawPaddle();
-
+afficherScores();
