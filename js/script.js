@@ -13,7 +13,7 @@ const ball = {
     radius: 20,
     color: '#000000',
     speed: 5,
-    direction: Math.random() % Math.PI * 2,
+    direction: Math.random() % Math.PI,
 }
 
 const paddle = {
@@ -92,7 +92,7 @@ function update() {
 function startGame() {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.direction = Math.random() % Math.PI * 2;
+    ball.direction = Math.random() % Math.PI;
     paddle.x = (canvas.width / 2) - 50;
 
     startTime = Date.now();
