@@ -2,27 +2,32 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('start');
 const scoreLabel = document.getElementById('score');
+const rightButton = document.getElementById('droite');
+const leftButton = document.getElementById('gauche');
 
 const keys = {
-    ArrowLeft: false, ArrowRight: false
+    ArrowLeft: false,
+    ArrowRight: false,
+    left: false,
+    right: false,
 };
 
 const ball = {
     x: canvas.width / 2,
     y: canvas.height / 2,
     radius: 10,
-    color: '#000000',
-    speed: 6,
-    xDirection: Math.random() % 1,
-    yDirection: (Math.random() % 2) - 1,
+    color: '#ffffff',
+    speed: 5,
+    yDirection: 0,
+    xDirection: 0,
 }
 
 const paddle = {
     x: (canvas.width / 2) - 50,
     y: canvas.height - 50,
     width: 70, height: 10,
-    color: '#1a57ca',
-    speed: 7,
+    color: '#ffffff',
+    speed: 6,
 }
 
 function drawBall() {
@@ -36,6 +41,11 @@ function updateBall() {
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
+
+    a = (Math.random() - 0.5) / 100;
+
+    ball.xDirection += a;
+    ball.yDirection += a;
 
     if ((ball.y + ball.radius >= paddle.y) && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width) {
         ball.yDirection = -ball.yDirection
@@ -66,9 +76,16 @@ function updatePaddle() {
     if (keys.ArrowLeft) {
         paddle.x -= paddle.speed;
     }
+    if (keys.left) {
+        paddle.x -= paddle.speed;
+    }
     if (keys.ArrowRight) {
         paddle.x += paddle.speed;
     }
+    if (keys.right) {
+        paddle.x += paddle.speed;
+    }
+
     if (paddle.x + paddle.width > canvas.width) {
         paddle.x = canvas.width - paddle.width;
     }
@@ -96,8 +113,8 @@ function startGame() {
     }
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.xDirection = Math.random() % 1;
-    ball.yDirection = (Math.random() % 2) - 1;
+    ball.yDirection = Math.random() - 1;
+    ball.xDirection = (Math.random() * 2) - 1;
     paddle.x = (canvas.width / 2) - 50;
 
     startTime = Date.now();
@@ -125,6 +142,22 @@ document.addEventListener('keyup', e => {
         keys[e.key] = false;
     }
 });
+
+rightButton.addEventListener('mousedown', e => {
+    keys.right = true;
+})
+
+rightButton.addEventListener('mouseup', e => {
+    keys.right = false;
+})
+
+leftButton.addEventListener('mousedown', e => {
+    keys.left = true;
+})
+
+leftButton.addEventListener('mouseup', e => {
+    keys.left = false;
+})
 
 
 drawBall()
