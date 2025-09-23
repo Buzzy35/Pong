@@ -48,7 +48,7 @@ function updateBall() {
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
 
-    a = (Math.random() - 0.5) / 100;
+    let a = (Math.random() - 0.5) / 100;
 
     ball.xDirection += a;
     ball.yDirection += a;
@@ -134,7 +134,7 @@ function endGame() {
     startButton.textContent = "Rejouer";
     console.log('endGame');
 
-    scores = JSON.parse(localStorage.getItem("scores"));
+    let scores = JSON.parse(localStorage.getItem("scores"));
     if (scores === null) {
         scores = [];
     }
@@ -148,7 +148,7 @@ function endGame() {
 }
 
 function afficherScores() {
-    scores = JSON.parse(localStorage.getItem("scores"));
+    let scores = JSON.parse(localStorage.getItem("scores"));
 
     scores.sort((a, b) => b[1] - a[1]);
 
@@ -174,11 +174,11 @@ document.addEventListener('keyup', e => {
     }
 });
 
-rightButton.addEventListener('mousedown', e => {
+rightButton.addEventListener('mousedown', () => {
     keys.right = true;
 })
 
-rightButton.addEventListener('mouseup', e => {
+rightButton.addEventListener('mouseup', () => {
     keys.right = false;
 })
 
@@ -192,11 +192,11 @@ rightButton.addEventListener('touchend', e => {
     keys.right = false;
 })
 
-leftButton.addEventListener('mousedown', e => {
+leftButton.addEventListener('mousedown', () => {
     keys.left = true;
 })
 
-leftButton.addEventListener('mouseup', e => {
+leftButton.addEventListener('mouseup', () => {
     keys.left = false;
 })
 
