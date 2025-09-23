@@ -151,11 +151,31 @@ rightButton.addEventListener('mouseup', e => {
     keys.right = false;
 })
 
+rightButton.addEventListener('touchstart', e => {
+    e.preventDefault();
+    keys.right = true;
+})
+
+rightButton.addEventListener('touchend', e => {
+    e.preventDefault();
+    keys.right = false;
+})
+
 leftButton.addEventListener('mousedown', e => {
     keys.left = true;
 })
 
 leftButton.addEventListener('mouseup', e => {
+    keys.left = false;
+})
+
+leftButton.addEventListener('touchstart', e => {
+    e.preventDefault();
+    keys.left = true;
+})
+
+leftButton.addEventListener('touchend', e => {
+    e.preventDefault();
     keys.left = false;
 })
 
