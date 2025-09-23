@@ -159,6 +159,8 @@ leftButton.addEventListener('mouseup', e => {
     keys.left = false;
 })
 
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
 
 drawBall()
 drawPaddle();

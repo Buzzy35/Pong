@@ -27,6 +27,10 @@ canvas {
     background-size: cover;
     background-position: center;
     text-indent: -9999px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 #gauche {
