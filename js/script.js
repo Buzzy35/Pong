@@ -6,6 +6,9 @@ const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
 const scoresTable = document.getElementById('scores');
 
+const BALL_SPEED = 5;
+const PADDLE_SPEED = 6;
+
 const keys = {
     ArrowLeft: false,
     ArrowRight: false,
@@ -18,7 +21,7 @@ const ball = {
     y: canvas.height / 2,
     radius: 10,
     color: '#ffffff',
-    speed: 5,
+    speed: 0,
     yDirection: 0,
     xDirection: 0,
 }
@@ -28,7 +31,7 @@ const paddle = {
     y: canvas.height - 50,
     width: 70, height: 10,
     color: '#ffffff',
-    speed: 6,
+    speed: PADDLE_SPEED,
 }
 
 function drawBall() {
@@ -39,6 +42,8 @@ function drawBall() {
 }
 
 function updateBall() {
+
+    ball.speed += 0.001;
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
@@ -117,6 +122,7 @@ function startGame() {
     ball.yDirection = Math.random() - 1;
     ball.xDirection = (Math.random() * 2) - 1;
     paddle.x = (canvas.width / 2) - 50;
+    ball.speed = BALL_SPEED;
 
     startTime = Date.now();
     game = true;
@@ -133,6 +139,8 @@ function endGame() {
         scores = [];
     }
     nom = prompt("Entrez votre nom");
+    if (!nom || nom.trim() === "") nom = `Guest${Math.floor(Math.random() * 1000)}`;
+    console.log(nom);
     scores.push([nom, scoreLabel.innerHTML]);
 
     localStorage.setItem("scores", JSON.stringify(scores));
