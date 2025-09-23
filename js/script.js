@@ -10,43 +10,44 @@ const keys = {
 const ball = {
     x: canvas.width / 2,
     y: canvas.height / 2,
-    radius: 20,
+    radius: 10,
     color: '#000000',
-    speed: 5,
-    direction: Math.random() % Math.PI,
+    speed: 6,
+    xDirection: Math.random() % 1,
+    yDirection: (Math.random() % 2) - 1,
 }
 
 const paddle = {
     x: (canvas.width / 2) - 50,
     y: canvas.height - 50,
-    width: 100,
-    height: 10,
+    width: 70, height: 10,
     color: '#1a57ca',
-    speed: 5,
+    speed: 7,
 }
 
 function drawBall() {
     ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); // x, y, rayon, angleDébut, angleFin
+    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
     ctx.fillStyle = ball.color;
     ctx.fill();
 }
 
 function updateBall() {
-    ball.x = ball.x + (ball.speed * Math.cos(ball.direction));
-    ball.y = ball.y + (ball.speed * Math.sin(ball.direction));
+
+    ball.x += ball.xDirection * ball.speed;
+    ball.y += ball.yDirection * ball.speed;
 
     if ((ball.y + ball.radius >= paddle.y) && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width) {
-        ball.direction = (Math.PI - ball.direction) % Math.PI * 2;
+        ball.yDirection = -ball.yDirection
         ball.y = paddle.y - ball.radius - 1;
     } else if (ball.x - ball.radius <= 0) {
-        ball.direction = (Math.PI - ball.direction) % Math.PI * 2;
+        ball.xDirection = -ball.xDirection
         ball.x = ball.radius + 1;
     } else if (ball.x + ball.radius >= canvas.width) {
-        ball.direction = (Math.PI - ball.direction) % Math.PI * 2;
+        ball.xDirection = -ball.xDirection
         ball.x = canvas.width - ball.radius - 1;
     } else if (ball.y - ball.radius <= 0) {
-        ball.direction = (ball.direction + 2 * Math.PI) % Math.PI * 2;
+        ball.yDirection = -ball.yDirection
         ball.y = ball.radius + 1;
     } else if (ball.y + ball.radius >= canvas.height) {
         game = false;
@@ -90,9 +91,13 @@ function update() {
 }
 
 function startGame() {
+    if (game === true) {
+        return;
+    }
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.direction = Math.random() % Math.PI;
+    ball.xDirection = Math.random() % 1;
+    ball.yDirection = (Math.random() % 2) - 1;
     paddle.x = (canvas.width / 2) - 50;
 
     startTime = Date.now();
@@ -101,6 +106,7 @@ function startGame() {
 }
 
 function endGame() {
+    game = false;
     startButton.textContent = "Rejouer";
     console.log('endGame');
 }
