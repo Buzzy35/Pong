@@ -44,7 +44,6 @@ function mesureFps(duration = 1000) {
             if (!startTime) startTime = timestamp;
             frames.push(timestamp);
             if (timestamp - startTime >= duration) {
-                // Calcul des deltas entre frames
                 const deltas = [];
                 for (let i = 1; i < frames.length; i++) {
                     deltas.push(frames[i] - frames[i - 1]);
