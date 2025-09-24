@@ -43,7 +43,7 @@ function drawBall() {
 
 function updateBall() {
 
-    ball.speed += 0.001;
+    ball.speed += 0.005;
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
