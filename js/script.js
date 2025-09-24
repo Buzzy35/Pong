@@ -35,28 +35,33 @@ const paddle = {
 }
 
 let fps;
-let frames = [];
-let startTime;
-
-function mesureFps(timestamp) {
-    if (!startTime) startTime = timestamp;
-    frames.push(timestamp);
-    if (timestamp - startTime >= 1000) {
-        const deltas = [];
-        for (let i = 1; i < frames.length; i++) {
-            deltas.push(frames[i] - frames[i - 1]);
+function mesureFps(duration = 1000) {
+    return new Promise(resolve => {
+        frames = [];
+        startTime = null;
+        startButton.disabled = true;
+        function loop(timestamp) {
+            if (!startTime) startTime = timestamp;
+            frames.push(timestamp);
+            if (timestamp - startTime >= duration) {
+                // Calcul des deltas entre frames
+                const deltas = [];
+                for (let i = 1; i < frames.length; i++) {
+                    deltas.push(frames[i] - frames[i - 1]);
+                }
+                const moyenne = deltas.reduce((a, b) => a + b, 0) / deltas.length;
+                fps = 1000 / moyenne;
+                console.log("FPS : " + fps.toFixed(2));
+                startButton.disabled = false;
+                startButton.offsetHeight;
+                resolve(fps);
+                return;
+            }
+            requestAnimationFrame(loop);
         }
-        const moyenne = deltas.reduce((a, b) => a + b, 0) / deltas.length;
-        fps = 1000 / moyenne;
-        console.log("fps : " + fps);
-        startButton.disabled = false;
-        startButton.offsetHeight;
-        return;
-    }
-    requestAnimationFrame(mesureFps);
+        requestAnimationFrame(loop);
+    });
 }
-startButton.disabled = true;
-requestAnimationFrame(mesureFps);
 
 
 function drawBall() {
@@ -241,3 +246,4 @@ document.addEventListener("contextmenu", (e) => e.preventDefault());
 drawBall()
 drawPaddle();
 afficherScores();
+mesureFps(1000);
