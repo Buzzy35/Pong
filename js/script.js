@@ -6,7 +6,7 @@ const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
 const scoresTable = document.getElementById('scores');
 
-const BALL_SPEED = 5;
+const BALL_SPEED = 2;
 const PADDLE_SPEED = 6;
 
 const keys = {
@@ -43,7 +43,7 @@ function drawBall() {
 
 function updateBall() {
 
-    ball.speed += 0.005;
+    ball.speed += 0.001;
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
@@ -120,7 +120,7 @@ function startGame() {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.yDirection = Math.random() - 1;
-    ball.xDirection = (Math.random() * 2) - 1;
+    ball.xDirection = 1-ball.yDirection;
     paddle.x = (canvas.width / 2) - 50;
     ball.speed = BALL_SPEED;
 
