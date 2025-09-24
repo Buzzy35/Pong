@@ -50,7 +50,7 @@ function mesureFps(timestamp) {
         fps = 1000 / moyenne;
         console.log("fps : " + fps);
         startButton.disabled = false;
-        startButtont.offsetHeight;
+        startButton.offsetHeight;
         return;
     }
     requestAnimationFrame(mesureFps);
