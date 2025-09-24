@@ -6,7 +6,7 @@ const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
 const scoresTable = document.getElementById('scores');
 
-const BALL_SPEED = 2;
+const BALL_SPEED = 100;
 const PADDLE_SPEED = 6;
 
 const keys = {
@@ -33,6 +33,30 @@ const paddle = {
     color: '#ffffff',
     speed: PADDLE_SPEED,
 }
+
+let fps;
+let frames = [];
+let startTime;
+
+function mesureFps(timestamp) {
+    if (!startTime) startTime = timestamp;
+    frames.push(timestamp);
+    if (timestamp - startTime >= 1000) {
+        const deltas = [];
+        for (let i = 1; i < frames.length; i++) {
+            deltas.push(frames[i] - frames[i - 1]);
+        }
+        const moyenne = deltas.reduce((a, b) => a + b, 0) / deltas.length;
+        fps = 1000 / moyenne;
+        console.log("fps : " + fps);
+        startButton.disabled = false;
+        return;
+    }
+    requestAnimationFrame(mesureFps);
+}
+startButton.disabled = true;
+requestAnimationFrame(mesureFps);
+
 
 function drawBall() {
     ctx.beginPath();
@@ -120,9 +144,9 @@ function startGame() {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.yDirection = Math.random() - 1;
-    ball.xDirection = 1-ball.yDirection;
+    ball.xDirection = 1 - ball.yDirection;
     paddle.x = (canvas.width / 2) - 50;
-    ball.speed = BALL_SPEED;
+    ball.speed = BALL_SPEED / fps;
 
     startTime = Date.now();
     game = true;
