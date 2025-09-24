@@ -6,7 +6,7 @@ const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
 const scoresTable = document.getElementById('scores');
 
-const BALL_SPEED = 100;
+const BALL_SPEED = 150;
 const PADDLE_SPEED = 6;
 
 const keys = {
@@ -72,7 +72,7 @@ function drawBall() {
 
 function updateBall() {
 
-    ball.speed += 0.001;
+    ball.speed += fps / 100000;
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
