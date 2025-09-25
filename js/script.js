@@ -137,8 +137,7 @@ function endGame() {
     startButton.textContent = "Rejouer";
     console.log('endGame');
 
-    let scores = [];
-    scores = JSON.parse(localStorage.getItem("scores"));
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
 
     nom = prompt("Entrez votre nom");
     if (!nom || nom.trim() === "") nom = `Guest${Math.floor(Math.random() * 1000)}`;
@@ -150,8 +149,7 @@ function endGame() {
 }
 
 function afficherScores() {
-    let scores = [];
-    scores = JSON.parse(localStorage.getItem("scores"));
+    scores = JSON.parse(localStorage.getItem("scores")) || [];
 
     scores.sort((a, b) => b[1] - a[1]);
 
