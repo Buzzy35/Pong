@@ -6,8 +6,11 @@ const rightButton = document.getElementById('droite');
 const leftButton = document.getElementById('gauche');
 const scoresTable = document.getElementById('scores');
 
-const BALL_SPEED = 150;
+const BALL_SPEED = 2;
 const PADDLE_SPEED = 6;
+
+let game = false;
+let startTime = 0;
 
 const keys = {
     ArrowLeft: false,
@@ -34,35 +37,6 @@ const paddle = {
     speed: PADDLE_SPEED,
 }
 
-let fps;
-function mesureFps(duration = 1000) {
-    return new Promise(resolve => {
-        frames = [];
-        startTime = null;
-        startButton.disabled = true;
-        function loop(timestamp) {
-            if (!startTime) startTime = timestamp;
-            frames.push(timestamp);
-            if (timestamp - startTime >= duration) {
-                const deltas = [];
-                for (let i = 1; i < frames.length; i++) {
-                    deltas.push(frames[i] - frames[i - 1]);
-                }
-                const moyenne = deltas.reduce((a, b) => a + b, 0) / deltas.length;
-                fps = 1000 / moyenne;
-                console.log("FPS : " + fps.toFixed(2));
-                startButton.disabled = false;
-                startButton.offsetHeight;
-                resolve(fps);
-                return;
-            }
-            requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-    });
-}
-
-
 function drawBall() {
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
@@ -72,7 +46,7 @@ function drawBall() {
 
 function updateBall() {
 
-    ball.speed += fps / 100000;
+    ball.speed += 0.001;
 
     ball.x += ball.xDirection * ball.speed;
     ball.y += ball.yDirection * ball.speed;
@@ -151,7 +125,7 @@ function startGame() {
     ball.yDirection = Math.random() - 1;
     ball.xDirection = 1 - ball.yDirection;
     paddle.x = (canvas.width / 2) - 50;
-    ball.speed = BALL_SPEED / fps;
+    ball.speed = BALL_SPEED;
 
     startTime = Date.now();
     game = true;
@@ -163,10 +137,9 @@ function endGame() {
     startButton.textContent = "Rejouer";
     console.log('endGame');
 
-    let scores = JSON.parse(localStorage.getItem("scores"));
-    if (scores === null) {
-        scores = [];
-    }
+    let scores = [];
+    scores = JSON.parse(localStorage.getItem("scores"));
+
     nom = prompt("Entrez votre nom");
     if (!nom || nom.trim() === "") nom = `Guest${Math.floor(Math.random() * 1000)}`;
     console.log(nom);
@@ -177,7 +150,8 @@ function endGame() {
 }
 
 function afficherScores() {
-    let scores = JSON.parse(localStorage.getItem("scores"));
+    let scores = [];
+    scores = JSON.parse(localStorage.getItem("scores"));
 
     scores.sort((a, b) => b[1] - a[1]);
 
@@ -245,4 +219,3 @@ document.addEventListener("contextmenu", (e) => e.preventDefault());
 drawBall()
 drawPaddle();
 afficherScores();
-mesureFps(1000);
